@@ -1,0 +1,47 @@
+version: '3'
+services:
+
+  nextcloud:
+    image: nextcloud
+    env_file: config/nextcloud.env
+    environment:
+      MYSQL_HOST: ${MYSQL_HOST:-mysql}
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-nextcloud}
+      MYSQL_USER: ${MYSQL_USER:-nextcloud}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: ${TZ:-UTC}
+    ports:
+      - ${NEXTCLOUD_PORT}:80
+    volumes:
+      - nextcloud-data:/var/www/html
+    labels:
+      com.centurylinklabs.watchtower.scope: nextcloud-compose
+    restart: unless-stopped
+  
+  mysql:
+    container_name: nextcloud-mysql
+    image: mysql:8.0
+    ports: [3306]
+    environment:
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+      MYSQL_DATABASE: ${MYSQL_DATABASE:-nextcloud}
+      MYSQL_USER: ${MYSQL_USER:-nextcloud}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - nextcloud-mysql:/var/lib/mysql
+
+  watchtower:
+    image: containrrr/watchtower
+    env_file: config/watchtower.env
+    environment:
+      WATCHTOWER_SCOPE: nextcloud-compose
+      TZ: ${TZ:-UTC}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    labels:
+      com.centurylinklabs.watchtower.scope: nextcloud-compose
+    restart: unless-stopped
+
+volumes:
+  nextcloud-data: {}
+  nextcloud-mysql: {}
