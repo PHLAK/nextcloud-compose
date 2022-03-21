@@ -29,6 +29,9 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - nextcloud-mysql:/var/lib/mysql
+    labels:
+      com.centurylinklabs.watchtower.scope: nextcloud-compose
+    restart: unless-stopped
 
   watchtower:
     image: containrrr/watchtower
