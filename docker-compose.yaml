@@ -2,7 +2,7 @@ version: '3'
 services:
 
   nextcloud:
-    image: nextcloud
+    image: nextcloud:stable
     env_file: config/nextcloud.env
     environment:
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
