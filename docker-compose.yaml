@@ -9,12 +9,13 @@ services:
       MYSQL_DATABASE: ${MYSQL_DATABASE:-nextcloud}
       MYSQL_USER: ${MYSQL_USER:-nextcloud}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      NEXTCLOUD_DATA_DIR: /vol/data
       TZ: ${TZ:-UTC}
     ports:
       - ${NEXTCLOUD_PORT}:80
     volumes:
       - nextcloud-html:/var/www/html
-      - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/var/www/html/data
+      - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
     labels:
       com.centurylinklabs.watchtower.scope: nextcloud-compose
     restart: unless-stopped
