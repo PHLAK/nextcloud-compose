@@ -7,7 +7,6 @@ services:
     environment:
       NEXTCLOUD_DATA_DIR: /vol/data
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
-      MYSQL_PORT: ${MYSQL_PORT:-3306}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-nextcloud}
       MYSQL_USER: ${MYSQL_USER:-nextcloud}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
