@@ -38,7 +38,7 @@ services:
     restart: unless-stopped
 
   redis:
-    container_name: redis
+    container_name: nextcloud-redis
     image: redis:6.0
     labels:
       com.centurylinklabs.watchtower.scope: nextcloud-compose
