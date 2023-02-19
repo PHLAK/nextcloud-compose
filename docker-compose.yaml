@@ -5,11 +5,12 @@ services:
     image: nextcloud:stable
     env_file: config/nextcloud.env
     environment:
+      NEXTCLOUD_DATA_DIR: /vol/data
       MYSQL_HOST: ${MYSQL_HOST:-mysql}
       MYSQL_DATABASE: ${MYSQL_DATABASE:-nextcloud}
       MYSQL_USER: ${MYSQL_USER:-nextcloud}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-      NEXTCLOUD_DATA_DIR: /vol/data
+      REDIS_HOST: redis
       TZ: ${TZ:-UTC}
     ports:
       - ${NEXTCLOUD_PORT}:80
@@ -32,6 +33,13 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - nextcloud-mysql:/var/lib/mysql
+    labels:
+      com.centurylinklabs.watchtower.scope: nextcloud-compose
+    restart: unless-stopped
+
+  redis:
+    container_name: redis
+    image: redis:6.0
     labels:
       com.centurylinklabs.watchtower.scope: nextcloud-compose
     restart: unless-stopped
