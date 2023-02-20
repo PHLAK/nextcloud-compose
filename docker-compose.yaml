@@ -1,8 +1,11 @@
 version: '3'
 services:
 
-  nextcloud:
+  nextcloud: &app
     image: nextcloud:stable
+    depends_on:
+      - mysql
+      - redis
     env_file: config/nextcloud.env
     environment:
       NEXTCLOUD_DATA_DIR: /vol/data
@@ -20,9 +23,12 @@ services:
     labels:
       com.centurylinklabs.watchtower.scope: nextcloud-compose
     restart: unless-stopped
+
+  cron:
+    <<: *app
+    entrypoint: /cron.sh
   
   mysql:
-    container_name: nextcloud-mysql
     image: mysql:8.0
     ports:
       - "3306"
@@ -38,7 +44,6 @@ services:
     restart: unless-stopped
 
   redis:
-    container_name: nextcloud-redis
     image: redis:6.0
     labels:
       com.centurylinklabs.watchtower.scope: nextcloud-compose
