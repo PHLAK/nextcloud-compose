@@ -1,7 +1,7 @@
 version: '3'
 services:
 
-  nextcloud: &app
+  nextcloud:
     image: nextcloud:stable
     depends_on:
       - mysql
@@ -25,8 +25,21 @@ services:
     restart: unless-stopped
 
   cron:
-    <<: *app
+    image: nextcloud:stable
+    depends_on:
+      - mysql
+      - redis
+    env_file: config/nextcloud.env
+    environment:
+      NEXTCLOUD_DATA_DIR: /vol/data
+      TZ: ${TZ:-UTC}
+    volumes:
+      - nextcloud-html:/var/www/html
+      - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
     entrypoint: /cron.sh
+    labels:
+      com.centurylinklabs.watchtower.scope: nextcloud-compose
+    restart: unless-stopped
   
   mysql:
     image: mysql:8.0
