@@ -17,6 +17,7 @@ services:
       TZ: ${TZ:-UTC}
     ports:
       - ${NEXTCLOUD_PORT}:80
+    tmpfs: /tmp
     volumes:
       - nextcloud-html:/var/www/html
       - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
@@ -33,6 +34,7 @@ services:
     environment:
       NEXTCLOUD_DATA_DIR: /vol/data
       TZ: ${TZ:-UTC}
+    tmpfs: /tmp
     volumes:
       - nextcloud-html:/var/www/html
       - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
