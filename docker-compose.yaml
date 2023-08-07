@@ -21,6 +21,7 @@ services:
     volumes:
       - nextcloud-html:/var/www/html
       - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
+      - ./volumes/mysql/conf.d:/etc/mysql/conf.d
     labels:
       com.centurylinklabs.watchtower.scope: nextcloud-compose
     restart: unless-stopped
