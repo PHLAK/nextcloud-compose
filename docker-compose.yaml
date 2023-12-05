@@ -20,6 +20,7 @@ services:
     tmpfs: /tmp
     volumes:
       - nextcloud-html:/var/www/html
+      - ${NEXTCLOUD_CONFIG_PATH:-nextcloud-config}:/var/www/html/config
       - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
       - ./volumes/mysql/conf.d:/etc/mysql/conf.d
     labels:
@@ -38,6 +39,7 @@ services:
     tmpfs: /tmp
     volumes:
       - nextcloud-html:/var/www/html
+      - ${NEXTCLOUD_CONFIG_PATH:-nextcloud-config}:/var/www/html/config
       - ${NEXTCLOUD_DATA_PATH:-nextcloud-data}:/vol/data
     entrypoint: /cron.sh
     labels:
@@ -79,5 +81,6 @@ services:
 
 volumes:
   nextcloud-html: {}
+  nextcloud-config: {}
   nextcloud-data: {}
   nextcloud-mysql: {}
